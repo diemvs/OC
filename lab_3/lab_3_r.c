@@ -42,7 +42,7 @@ int main(void){
 		exit(EXIT_FAILURE);
 	}
 	
-	shmID = shmget(ipcKey, sizeof(struct Value), 0777 | IPC_EXCL);
+	shmID = shmget(ipcKey, sizeof(struct Value *), 0666 | IPC_EXCL);
 	if (shmID == -1) {
 		printf("Ошибка SHM: %d\n", errno);
 		exit(EXIT_FAILURE);
