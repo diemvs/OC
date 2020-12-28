@@ -33,30 +33,16 @@ char* getTime(){
 	return asctime(ptr);
 }
 
-void deleteSM(){
-	if(shmctl(shmID, IPC_RMID, 0) == -1){
-		printf("Ошибка удаления разделяемой памяти\n");
-	}
-	else {
-		 printf("Разделяемая память удаленая успешно\n");
-	}
-
-}
-
-void atexitFunction() {
-	printf("\nСработал деструктор\n");
-	struct shmid_ds *buffer = 0;
-	shmctl(shmID, IPC_RMID, buffer);
-		if(shmID >= 0 && buffer->shm_segsz != 0){
-			deleteSM();
-		}
-	
+void destructor(int signal){
+	struct shmid_ds *buf = 0;
+	shmctl(shmID, IPC_RMID, buf);
+	exit(0);
 }
 
 int main(int argc, char* argv[]){
-	if(atexit(atexitFunction)){
-		printf("Ошибка atexit()\n");
-	}
+	
+	signal(SIGINT, destructor);
+	
 	struct Value *value;
 	
 	key_t key = ftok(FILE_PATH, IPC);
