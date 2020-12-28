@@ -18,12 +18,9 @@ void* readT(){
 		pthread_cond_wait(&cond, &mutex);
 		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", (long)pthread_self(), arr[counter], counter);
 		
-		fflush(stdout);
-		
 		pthread_mutex_unlock(&mutex);
 		pthread_cond_signal(&cond);
-		
-		sleep(rand() % 10);
+		sleep(1);
 	}
 }
 
@@ -34,8 +31,12 @@ void* writeT(){
 		if(counter < SIZE_OF_ARR){
 			arr[counter] = counter;
 		}
-		
-		pthread_cond_broadcast(&cond);
+		int random = rand() %10;
+		if(random < 5) {
+			pthread_cond_broadcast(&cond);
+		} else {
+		pthread_cond_signal(&cond);
+		}
 		
 		pthread_mutex_unlock(&mutex);
 		sleep(rand() % 10);

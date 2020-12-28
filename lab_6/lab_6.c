@@ -15,8 +15,6 @@ void* readT(){
 	for(; ; ){
 		pthread_rwlock_wrlock(&rwlock);
 		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", (long)pthread_self(), arr[counter], counter);
-		
-		fflush(stdout);
 		pthread_rwlock_unlock(&rwlock);
 		sleep(rand() % 5);
 	}
@@ -30,7 +28,6 @@ void* writeT(){
 		if(counter < SIZE_OF_ARR){
 			arr[counter] = counter;
 		}
-		fflush(stdout);
 		pthread_rwlock_unlock(&rwlock);
 		sleep(3);
 	}
