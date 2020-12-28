@@ -59,15 +59,17 @@ int main(){
 	
 	for(; ; ){
 		struct Value myValue;
+		
+		myValue.pid = getpid();
+		strcpy( myValue.str, getTime());
+		printf("PID: %d, Время: %s \n", myValue.pid, myValue.str);
+		printf("Полученные PID: %d, Время: %s \n", recivedValue->pid, recivedValue->str);
 		int semSigRes = semop(semID, &semsignal, 1);
 		if(semSigRes == -1){
 			printf("Ошибка открытия SEMAPHORE\n");
 			exit(EXIT_FAILURE);
 		}	
-		myValue.pid = getpid();
-		strcpy( myValue.str, getTime());
-		printf("PID: %d, Время: %s \n", myValue.pid, myValue.str);
-		printf("Полученные PID: %d, Время: %s \n", recivedValue->pid, recivedValue->str);
+
 		sleep(1);
 	}
 	
