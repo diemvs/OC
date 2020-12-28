@@ -9,17 +9,13 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-void funcExitParentProcess(){
-	printf("Завершил работу родителский процесс\n");
+void funcExit(){
+	printf("Процесс завершился\n");
 }
-
-void funcExitChildProcess(){
-	printf("Завершил работу дочерний процесс\n");
-}
-
 
 int main ()
 {
+	atexit(funcExit);
 	pid_t pid = fork();
 
 	switch(pid){
@@ -31,7 +27,7 @@ int main ()
 		printf("PID: %d\n", getpid());
 		printf("PPID: %d\n", getppid());
 		
-		atexit(funcExitChildProcess);
+		
 		exit(0);
 	default: 
 		printf("Это процесс родитель\n");
@@ -40,7 +36,6 @@ int main ()
 		printf("Жду когда потомок вызовет  exit()...\n");
 		wait(0);	
 	
-		atexit(funcExitParentProcess);
 		exit(0);
 	}
 	return 0;
