@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 
 void funcExit(){
-	printf("Процесс завершился\n");
+	printf("Процесс номер: %d завершился\n", getpid());
 }
 
 int main ()
