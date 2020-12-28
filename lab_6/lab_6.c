@@ -5,9 +5,11 @@
 
 pthread_rwlock_t rwlock;
 
+#define SIZE_OF_ARR 100
+#define NUMBER_OF_THREADS 10
+
 int* arr;
 int counter = 0;
-int numOfThreads = 10;
 
 void* readT(){
 	for(; ; ){
@@ -16,7 +18,7 @@ void* readT(){
 		
 		fflush(stdout);
 		pthread_rwlock_unlock(&rwlock);
-		sleep(3);
+		sleep(rand() % 5);
 	}
 
 }
@@ -25,7 +27,7 @@ void* writeT(){
 	for(; ; ){
 		pthread_rwlock_rdlock(&rwlock);
 		counter++;
-		if(counter < 100){
+		if(counter < SIZE_OF_ARR){
 			arr[counter] = counter;
 		}
 		fflush(stdout);
@@ -36,9 +38,9 @@ void* writeT(){
 }
 
 int main(){
-	arr = (int*)calloc(100, sizeof(int));
+	arr = (int*)calloc(SIZE_OF_ARR, sizeof(int));
 	
-	pthread_t threads[numOfThreads];
+	pthread_t threads[NUMBER_OF_THREADS];
 	pthread_rwlock_init(&rwlock, NULL);
 	
 	int i;
@@ -47,12 +49,12 @@ int main(){
 		pthread_create(&threads[i], NULL, writeT, NULL);
 	}
 	
-	while(i < numOfThreads){
+	while(i < NUMBER_OF_THREADS){
 		pthread_create(&threads[i], NULL, readT, NULL);
 		i++;
 	}
 
-	for(i = 0; i < numOfThreads; i++){
+	for(i = 0; i < NUMBER_OF_THREADS; i++){
 		pthread_join(threads[i], NULL);
 	}
 	
