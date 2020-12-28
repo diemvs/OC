@@ -14,7 +14,7 @@ int counter = 0;
 void* readT(){
 	for(; ; ){
 		pthread_rwlock_wrlock(&rwlock);
-		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", pthread_self(), arr[counter], counter);
+		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", (long)pthread_self(), arr[counter], counter);
 		
 		fflush(stdout);
 		pthread_rwlock_unlock(&rwlock);

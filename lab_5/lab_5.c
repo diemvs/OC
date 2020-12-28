@@ -15,7 +15,7 @@ int counter;
 void* readT(){
 	for(; ; ){
 		pthread_mutex_lock(&mutex);
-		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", pthread_self(), arr[counter], counter);
+		printf("ID потока: %ld, Размер массива: %d, Счетчик: %d\n", (long)pthread_self(), arr[counter], counter);
 		
 		fflush(stdout);
 		pthread_mutex_unlock(&mutex);
